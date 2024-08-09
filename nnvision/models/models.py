@@ -1,9 +1,8 @@
 import numpy as np
-import torch
 import copy
+import warnings
 
-from nnfabrik.builder import get_model
-from nnfabrik.utility.nn_helpers import set_random_seed, get_dims_for_loader_dict
+import torch
 from torch import nn
 from torch.nn import functional as F
 
@@ -25,15 +24,20 @@ from .readouts import (
     FullSlotAttention2d,
     GroupSlotAttention2d,
 )
-from .utility import unpack_data_info, purge_state_dict, get_readout_key_names
+from .utility import (unpack_data_info,
+                      purge_state_dict,
+                      get_readout_key_names,
+                      set_random_seed,
+                      get_dims_for_loader_dict)
 
 
 try:
     from ..tables.from_nnfabrik import TrainedTransferModel, TrainedModel
     from ..tables.main import Recording
     from nnfabrik.main import Model
+    from nnfabrik.builder import get_model
 except:
-    print(
+    warnings.warn(
         "datajoint connection not established, skipping model imports from nnfabrik tables"
     )
 

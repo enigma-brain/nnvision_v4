@@ -1,10 +1,6 @@
 import torch
 import os
 
-import nnvision
-import nnfabrik
-from nnfabrik.builder import get_model
-
 # full model key
 key = {
     "model_fn": "nnvision.models.models.se_core_shared_multihead_attention",
@@ -61,6 +57,7 @@ filename = os.path.join(current_dir, '../../data/model_weights/v4_data_driven/v4
 state_dict = torch.load(filename)
 
 # load single model
+
 v4_multihead_attention_model = get_model(
     model_fn, model_config, seed=10, data_info=data_info, state_dict=state_dict
 )

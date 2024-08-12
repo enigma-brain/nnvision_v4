@@ -21,7 +21,7 @@ setup(
         "scipy>=1.5.4",
         "torch>=1.7.0",
         "torchvision>=0.8.1",
-        "transformers==4.35.2",
+        "transformers>=4.35.2",
         "tqdm>=4.51.0",
         "nnfabrik",
         "neuralpredictors @ git+https://github.com/KonstantinWilleke/neuralpredictors.git@interview",

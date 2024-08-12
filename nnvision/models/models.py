@@ -34,7 +34,6 @@ from .utility import (unpack_data_info,
 try:
     from ..tables.from_nnfabrik import TrainedTransferModel, TrainedModel
     from ..tables.main import Recording
-    from nnfabrik.main import Model
     from nnfabrik.builder import get_model
 except:
     warnings.warn(

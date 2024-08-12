@@ -1,5 +1,6 @@
 import torch
 import os
+from nnfabrik.builder import get_model
 
 # full model key
 key = {

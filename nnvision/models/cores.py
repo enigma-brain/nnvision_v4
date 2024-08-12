@@ -1,7 +1,8 @@
 import os
 import numpy as np
 
-from collections import OrderedDict, Iterable
+from collections import OrderedDict
+from collections.abc import Iterable
 import warnings
 import torch
 from torch import nn as nn

@@ -3,7 +3,7 @@ import torch
 import torch.nn.functional as F
 from scipy import signal
 import random
-from collections import Iterable
+from collections.abc import Iterable
 
 from mei.legacy.utils import varargin
 

@@ -4,7 +4,7 @@ from functools import partial
 import numpy as np
 import torch
 from tqdm import tqdm
-from collections import Iterable
+from collections.abc import Iterable
 
 from neuralpredictors.measures import *
 from neuralpredictors import measures as mlmeasures

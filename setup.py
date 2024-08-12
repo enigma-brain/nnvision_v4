@@ -16,7 +16,7 @@ setup(
         "setuptools>=50.3.2",
         "einops",
         "scikit-image==0.19.1",
-        "numpy==1.22.0",
+        "numpy>=1.22.0",
         "matplotlib>=3.3.2",
         "scipy>=1.5.4",
         "torch>=1.7.0",

@@ -24,21 +24,14 @@ from .readouts import (
     FullSlotAttention2d,
     GroupSlotAttention2d,
 )
-from .utility import (unpack_data_info,
-                      purge_state_dict,
-                      get_readout_key_names,
-                      set_random_seed,
-                      get_dims_for_loader_dict)
+from .utility import (
+    unpack_data_info,
+    purge_state_dict,
+    get_readout_key_names,
+    set_random_seed,
+    get_dims_for_loader_dict,
+)
 
-
-try:
-    from ..tables.from_nnfabrik import TrainedTransferModel, TrainedModel
-    from ..tables.main import Recording
-    from nnfabrik.builder import get_model
-except:
-    warnings.warn(
-        "datajoint connection not established, skipping model imports from nnfabrik tables"
-    )
 
 try:
     from neuralpredictors.layers.cores import Stacked2dCore
@@ -114,7 +107,6 @@ def se_core_gauss_readout(
         if isinstance(input_channels, dict)
         else input_channels[0]
     )
-
 
     set_random_seed(seed)
 
@@ -1304,6 +1296,10 @@ def simple_core_transfer(
     data_info=None,
     **kwargs,
 ):
+    from ..tables.from_nnfabrik import TrainedTransferModel, TrainedModel
+    from ..tables.main import Recording
+    from nnfabrik.main import Model
+    from nnfabrik.builder import get_model
 
     if not readout_transfer_key and (
         pretrained_features or pretrained_grid or pretrained_bias
@@ -1390,6 +1386,10 @@ def transfer_readout_augmentation(
     train_augmented_pos=False,
     train_augmented_features=True,
 ):
+    from ..tables.from_nnfabrik import TrainedTransferModel, TrainedModel
+    from ..tables.main import Recording
+    from nnfabrik.main import Model
+    from nnfabrik.builder import get_model
 
     if not readout_transfer_key and (
         pretrained_features or pretrained_grid or pretrained_bias
@@ -1522,6 +1522,11 @@ def se_core_shared_gaussian_readout(
     trainer_fn=None,
     trainer_hash=None,
 ):
+    from ..tables.from_nnfabrik import TrainedTransferModel, TrainedModel
+    from ..tables.main import Recording
+    from nnfabrik.main import Model
+    from nnfabrik.builder import get_model
+
     if key is not None:
         dataloaders, model = TrainedModel().load_model(key)
     else:
@@ -2829,7 +2834,6 @@ def se_core_slot_attention(
         use_slot_gru=use_slot_gru,
         use_weighted_mean=use_weighted_mean,
         full_skip=full_skip,
-
     )
 
     # initializing readout bias to mean response
@@ -3166,7 +3170,6 @@ def se_core_groupslot_attention(
         self_attention=self_attention,
         embed_out=embed_out,
         neuron_slot_weight_temp=neuron_slot_weight_temp,
-
     )
 
     # initializing readout bias to mean response
@@ -3256,7 +3259,6 @@ def transfer_core_groupslot_attention(
         in_shapes_dict = {k: v[in_name] for k, v in session_shape_dict.items()}
         input_channels = [v[in_name][1] for v in session_shape_dict.values()]
 
-
     set_random_seed(seed)
 
     readout = GroupSlotAttention2d(
@@ -3293,7 +3295,6 @@ def transfer_core_groupslot_attention(
         self_attention=self_attention,
         embed_out=embed_out,
         neuron_slot_weight_temp=neuron_slot_weight_temp,
-
     )
 
     # initializing readout bias to mean response
@@ -3307,27 +3308,23 @@ def transfer_core_groupslot_attention(
     return model
 
 
-def full_transfer_model(dataloaders,
-                        seed,
-                        transfer_key={},
-                        freeze_core=False,
-                        freeze_readout=False,):
-
+def full_transfer_model(
+    dataloaders,
+    seed,
+    transfer_key={},
+    freeze_core=False,
+    freeze_readout=False,
+):
 
     _, model = (TrainedModel & transfer_key).load_model()
 
-
     for params in model.core.parameters():
         params.requires_grad = False if freeze_core else True
-
 
     for params in model.readout.parameters():
         params.requires_grad = False if freeze_readout else True
 
     return model
-
-
-
 
 
 def transfer_core_multihead_attention_readout(
@@ -3494,7 +3491,7 @@ def transfere_core_shared_multihead_attention(
     freeze_core=True,
     freeze_readout=True,
     data_info=None,
-    **kwargs
+    **kwargs,
 ):
 
     # set default values that are in line with parameter expansion

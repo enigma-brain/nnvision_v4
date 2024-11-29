@@ -4,7 +4,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Install JupyterLab
 RUN python3 -m pip install --upgrade pip
 RUN python3 -m pip install jupyterlab
-RUN pip3 install numpy==1.26.4
+RUN pip3 install numpy==1.24.4
 RUN pip3 install torch torchvision torchaudio
 RUN pip3 install git+https://github.com/KonstantinWilleke/experanto.git@statshack
 RUN pip3 install datajoint

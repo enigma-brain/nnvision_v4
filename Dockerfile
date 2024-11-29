@@ -1,19 +1,6 @@
 FROM sinzlab/pytorch:v3.8-torch1.7.0-cuda11.0-dj0.12.7
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    ca-certificates \
-    curl \
-    wget \
-    git \
-    python3 \
-    python3-pip \
-    python3-dev \
-    python3-venv \
-    && rm -rf /var/lib/apt/lists/*
-
 # Install JupyterLab
 RUN python3 -m pip install --upgrade pip
 RUN python3 -m pip install jupyterlab

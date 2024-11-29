@@ -20,7 +20,7 @@ RUN pip3 install -U pytorch_warmup
 EXPOSE 8888
 # By default start running jupyter notebook
 WORKDIR /notebooks
-#RUN pip3 install -e ./mousehiera
+RUN pip3 install -e .
 #RUN git clone -b statshack https://github.com/KonstantinWilleke/experanto.git
 #RUN pip3 install -e /src/experanto
 ENTRYPOINT ["jupyter", "lab", "--allow-root", "--ip=0.0.0.0", "--no-browser", "--port=8888", "--NotebookApp.token='1234'", "--notebook-dir='/notebooks'"]

@@ -1,25 +1,39 @@
-ARG BASE_IMAGE=sinzlab/pytorch:v3.8-torch1.7.0-cuda11.0-dj0.12.7
+FROM sinzlab/pytorch:v3.8-torch1.7.0-cuda11.0-dj0.12.7
+ENV DEBIAN_FRONTEND=noninteractive
 
-# Perform multistage build to pull private repo without leaving behind
-# private information (e.g. SSH key, Git token)
-FROM ${BASE_IMAGE} as base
-ARG DEV_SOURCE=sinzlab
-ARG GITHUB_USER
-ARG GITHUB_TOKEN
+# Install dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    ca-certificates \
+    curl \
+    wget \
+    git \
+    python3 \
+    python3-pip \
+    python3-dev \
+    python3-venv \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN python3.8 -m pip install --upgrade pip
-RUN python3.8 -m pip install nnfabrik
+# Install JupyterLab
+RUN python3 -m pip install --upgrade pip
+RUN python3 -m pip install jupyterlab
+RUN pip3 install numpy==1.26.4
+RUN pip3 install torch torchvision torchaudio
+RUN pip3 install git+https://github.com/KonstantinWilleke/experanto.git@statshack
+RUN pip3 install datajoint
+RUN pip3 install opencv-python==4.8.0.74
+RUN pip3 install mlflow
+RUN pip3 install -U pytorch_warmup
 
-WORKDIR /src
-RUN git clone -b transformer_readout https://github.com/KonstantinWilleke/neuralpredictors &&\
-    git clone -b inception_loop https://github.com/sinzlab/mei
+#RUN pip3 install -e /notebooks/mousehiera
 
-FROM ${BASE_IMAGE}
-COPY --from=base /src /src
-ADD . /src/nnvision
+#ADD . /src/mousehiera
+#RUN pip3 install -e /src/mousehiera
 
-RUN python3.8 -m pip install --no-use-pep517 -e /src/neuralpredictors &&\
-    python3.8 -m pip install --no-use-pep517 -e /src/nnvision &&\
-    python3.8 -m pip install --no-use-pep517 -e /src/mei &&\
-    python3.8 -m pip install git+https://github.com/sacadena/ptrnets &&\
-    python3.8 -m pip install git+https://github.com/dicarlolab/CORnet
+EXPOSE 8888
+# By default start running jupyter notebook
+WORKDIR /notebooks
+#RUN pip3 install -e ./mousehiera
+#RUN git clone -b statshack https://github.com/KonstantinWilleke/experanto.git
+#RUN pip3 install -e /src/experanto
+ENTRYPOINT ["jupyter", "lab", "--allow-root", "--ip=0.0.0.0", "--no-browser", "--port=8888", "--NotebookApp.token='1234'", "--notebook-dir='/notebooks'"]

@@ -4,13 +4,14 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Install JupyterLab
 RUN python3 -m pip install --upgrade pip
 RUN python3 -m pip install jupyterlab
-RUN pip3 install numpy==1.24.4
+RUN pip3 install numpy==1.22.0
 RUN pip3 install torch torchvision torchaudio
 RUN pip3 install git+https://github.com/KonstantinWilleke/experanto.git@statshack
 RUN pip3 install datajoint
 RUN pip3 install opencv-python==4.8.0.74
 RUN pip3 install mlflow
 RUN pip3 install -U pytorch_warmup
+RUN pip3 install transformers==4.28.0
 
 #RUN pip3 install -e /notebooks/mousehiera
 

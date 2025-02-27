@@ -8,7 +8,7 @@ from collections.abc import Iterable
 from mei.legacy.utils import varargin
 
 from ..utility.measure_helpers import get_cosine_mask
-from ..tables.from_nnfabrik import Dataset
+#from ..tables.from_nnfabrik import Dataset
 
 
 class BlurAndCut:
